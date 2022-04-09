@@ -4,7 +4,7 @@ Boilerplate repository to showcase me (and others) my current way of building an
 
 # Why am I doing it?
 
-tbd
+I can't really remember how I wrote code several years ago and why I did things in a certain way. With this repository I would like to capture all my (new) learnings in one central ([or two?](https://github.com/MaiKaY/todo-frontend)) place. I selected a simple theme "Todo list" to keep the scope as small as possible.
 
 # What am I using?
 
@@ -51,7 +51,7 @@ From the fully automated [CI/CD pipeline](https://github.com/MaiKaY/todo-backend
 
 ## Linting
 
-No one likes conflicts in code styles. __No__. __One__. Therefore I use (hopefully) the right mixture of three different tools and ensure they are applied before even hit the repository (at least if the .git hooks are not deactivated ~~on purpose~~ accidentally).
+No one likes conflicts in code styles. __No__. __One__. Therefore I use (hopefully) the right mixture of three different tools and ensure they are applied even before hitting the repository (at least if the git hooks are not deactivated ~~on purpose~~ accidentally).
 
 - [editorconfig](https://github.com/MaiKaY/todo-backend/blob/main/.editorconfig)
 - [eslint](https://github.com/MaiKaY/todo-backend/blob/main/.eslintrc.js)
