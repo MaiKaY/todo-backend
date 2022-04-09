@@ -8,6 +8,7 @@ import { User, UserId } from '../../0.shared/User';
 import { Application } from '../../2.application/Application';
 import { DynamoDbTodoRepository } from '../repository/DynamoDbTodoRepository';
 import { InMemoryTodoRepository } from '../repository/InMemoryTodoRepository';
+import { EventBridgeNotificationService } from '../service/EventBridgeNotificationService';
 
 import { Context } from './graphql/Context';
 import { todoMutationResolvers } from './graphql/resolver/mutation/todo';
@@ -47,7 +48,8 @@ const errorFormatter = (
 export const createContext = async (userId: UserId): Promise<Context> => {
     const user = new User(userId);
     const application = new Application(
-        ENVIRONMENT === 'Staging' ? new InMemoryTodoRepository() : new DynamoDbTodoRepository(TODO_EVENT_STORE)
+        ENVIRONMENT === 'Staging' ? new InMemoryTodoRepository() : new DynamoDbTodoRepository(TODO_EVENT_STORE),
+        new EventBridgeNotificationService()
     );
     return new Context(user, application);
 };
