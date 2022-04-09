@@ -15,7 +15,7 @@ import { todoMutationResolvers } from './graphql/resolver/mutation/todo';
 import { todoQueryResolvers } from './graphql/resolver/query/todo';
 import { typeDefs } from './graphql/schema';
 
-const { ENVIRONMENT, TODO_EVENT_STORE } = process.env as Record<string, string>;
+const { ENVIRONMENT, EVENT_BUS_NAME, TODO_EVENT_STORE } = process.env as Record<string, string>;
 
 export const app = express();
 app.use(helmet());
@@ -49,7 +49,7 @@ export const createContext = async (userId: UserId): Promise<Context> => {
     const user = new User(userId);
     const application = new Application(
         ENVIRONMENT === 'Staging' ? new InMemoryTodoRepository() : new DynamoDbTodoRepository(TODO_EVENT_STORE),
-        new EventBridgeNotificationService()
+        new EventBridgeNotificationService(EVENT_BUS_NAME)
     );
     return new Context(user, application);
 };

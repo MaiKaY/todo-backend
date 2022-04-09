@@ -100,10 +100,12 @@ export class InfrastructureStack extends Stack {
             ...nodeJsFunctionProps,
             entry: join(__dirname, '../4.bin/aws/api-gateway/api.ts'),
             environment: {
+                EVENT_BUS_NAME: eventBus.eventBusName,
                 TODO_EVENT_STORE: todoEventStore.tableName
             }
         });
 
+        eventBus.grantPutEventsTo(apiLambda);
         todoEventStore.grantReadWriteData(apiLambda);
 
         const graphql = api.root.addResource('graphql');

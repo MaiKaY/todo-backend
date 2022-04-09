@@ -1,14 +1,46 @@
+import AWS from 'aws-sdk';
+
 import { UserId } from '../../0.shared/User';
 import { NotificationService } from '../../2.application/service/NotificationService';
 
+const eventBridge = new AWS.EventBridge();
+
 export class EventBridgeNotificationService implements NotificationService {
+    constructor(private readonly eventBusName: string) {}
+
     public async onTodoCreated(userId: UserId, todoId: string): Promise<void> {
-        console.log('onTodoCreated', userId, todoId);
-        // @todo implement event bridge publishing
+        await eventBridge
+            .putEvents({
+                Entries: [
+                    {
+                        EventBusName: this.eventBusName,
+                        Source: 'todo',
+                        DetailType: 'Created',
+                        Detail: JSON.stringify({
+                            userId,
+                            todoId
+                        })
+                    }
+                ]
+            })
+            .promise();
     }
 
     public async onTodoCompleted(userId: UserId, todoId: string): Promise<void> {
-        console.log('onTodoCompleted', userId, todoId);
-        // @todo implement event bridge publishing
+        await eventBridge
+            .putEvents({
+                Entries: [
+                    {
+                        EventBusName: this.eventBusName,
+                        Source: 'todo',
+                        DetailType: 'Completed',
+                        Detail: JSON.stringify({
+                            userId,
+                            todoId
+                        })
+                    }
+                ]
+            })
+            .promise();
     }
 }
