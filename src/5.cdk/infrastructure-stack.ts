@@ -3,6 +3,7 @@ import { join } from 'path';
 import {
     aws_apigateway as apigateway,
     aws_dynamodb as dynamodb,
+    aws_events as events,
     aws_lambda as lambda,
     aws_lambda_nodejs as nodejslambda,
     aws_logs as logs,
@@ -50,6 +51,17 @@ export class InfrastructureStack extends Stack {
         monitoringTopic.addSubscription(
             new snsSubscriptions.EmailSubscription('maik.schmidt.hl+github-todo@gmail.com')
         );
+
+        const eventBus = new events.EventBus(this, 'EventBus', {
+            eventBusName: props.stackName
+        });
+
+        eventBus.archive('EventBusArchive', {
+            eventPattern: {
+                account: [Stack.of(this).account]
+            },
+            retention: Duration.days(365)
+        });
 
         const todoEventStore = new dynamodb.Table(this, 'TodoEventStore', {
             partitionKey: {
