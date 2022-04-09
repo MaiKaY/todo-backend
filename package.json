@@ -11,7 +11,9 @@
         "api:codegen": "npx graphql-codegen && npm run lint:fix",
         "api:start": "npx nodemon --require dotenv/config --verbose --ext \"ts,json,graphql\" --watch 'src/**/*' --exec 'ts-node' src/4.bin/local/api.ts",
         "lint:fix": "npx prettier --write --ignore-unknown . && npx eslint --cache --fix .",
-        "test:unit": "npx jest test/unit --passWithNoTests"
+        "test:unit": "npx jest test/unit --passWithNoTests",
+        "build": "npx tsc && npm run build:schemas",
+        "build:schemas": "npx copyfiles -u 1 ./**/schema.graphql .build/"
     },
     "dependencies": {
         "apollo-server": "3.6.7",

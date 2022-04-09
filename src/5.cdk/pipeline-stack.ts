@@ -16,7 +16,7 @@ export class PipelineStack extends Stack {
                     authentication: SecretValue.plainText(gitHubToken)
                 }),
                 installCommands: ['npm install -g aws-cdk'],
-                commands: ['npm ci', 'npm run test:unit', 'npm run build', 'npm ci', 'npx cdk synth']
+                commands: ['npm ci', 'npm run test:unit', 'npm run build', 'npx cdk synth']
             }),
             dockerEnabledForSelfMutation: true,
             dockerEnabledForSynth: true
