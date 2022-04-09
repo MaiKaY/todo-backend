@@ -8,7 +8,7 @@ import { AbstractDynamoDb } from './AbstractDynamoDb';
 
 interface PersistedEvent {
     userId: string;
-    eventType: 'Completed' | 'Created';
+    eventType: 'Completed' | 'Created' | 'Deleted';
     eventDate: string;
     payload: string;
 }

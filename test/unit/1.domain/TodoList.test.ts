@@ -35,6 +35,24 @@ test('complete todo second time should fail', () => {
     todoList = todoList.create('create some unit tests');
     todoList = todoList.complete(todoList.todos[0].id);
     expect(() => {
-        todoList = todoList.complete(todoList.todos[0].id);
+        todoList.complete(todoList.todos[0].id);
     }).toThrow(TodoAlreadyCompleted);
+});
+
+test('delete todo', () => {
+    let todoList = TodoList.fromEvents([]);
+    todoList = todoList.create('create a boilerplate repository');
+    todoList = todoList.delete(todoList.todos[0].id);
+
+    expect(todoList.todos.length).toBe(0);
+});
+
+test('delete todo second time should fail', () => {
+    let todoList = TodoList.fromEvents([]);
+    todoList = todoList.create('create a boilerplate repository');
+    const todoId = todoList.todos[0].id;
+    todoList = todoList.delete(todoId);
+    expect(() => {
+        todoList.delete(todoId);
+    }).toThrow(TodoDoesNotExists);
 });

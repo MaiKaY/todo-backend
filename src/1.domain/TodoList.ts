@@ -2,10 +2,11 @@ import { v4 as uuid } from 'uuid';
 
 import { Completed } from './event/Completed';
 import { Created } from './event/Created';
+import { Deleted } from './event/Deleted';
 import { TodoAlreadyCompleted } from './exception/TodoAlreadyCompleted';
 import { TodoDoesNotExists } from './exception/TodoDoesNotExists';
 
-export type DomainEvent = Completed | Created;
+export type DomainEvent = Completed | Created | Deleted;
 
 export type Timeline = {
     createdAt: Date;
@@ -68,6 +69,21 @@ export class TodoList {
         return this.causes(event);
     }
 
+    public delete(todoId: string): TodoList {
+        const todo = this.todos.find((item) => item.id === todoId);
+        if (!todo) {
+            throw new TodoDoesNotExists();
+        }
+        const event: Deleted = {
+            type: 'Deleted',
+            eventDate: new Date(),
+            payload: {
+                todoId
+            }
+        };
+        return this.causes(event);
+    }
+
     private causes(event: DomainEvent): TodoList {
         return this.copyWith({ changes: [...this.changes, event] }).apply(event);
     }
@@ -107,6 +123,14 @@ export class TodoList {
                                           completedAt: event.eventDate
                                       }
                         }))
+                    }
+                });
+            }
+            case 'Deleted': {
+                return this.copyWith({
+                    attributes: {
+                        ...this.attributes,
+                        todos: this.todos.filter((todo) => todo.id !== event.payload.todoId)
                     }
                 });
             }

@@ -9,4 +9,8 @@ export class InMemoryNotificationService implements NotificationService {
     public async onTodoCompleted(userId: UserId, todoId: string): Promise<void> {
         console.log('onTodoCompleted', userId, todoId);
     }
+
+    public async onTodoDeleted(userId: UserId, todoId: string): Promise<void> {
+        console.log('onTodoDeleted', userId, todoId);
+    }
 }

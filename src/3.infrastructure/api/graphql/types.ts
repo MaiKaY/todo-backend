@@ -46,12 +46,28 @@ export enum CreateOutputError {
     Internal = 'INTERNAL'
 }
 
+export type DeleteInput = {
+    todoId: Scalars['ID'];
+};
+
+export type DeleteOutput = {
+    __typename?: 'DeleteOutput';
+    error: Maybe<DeleteOutputError>;
+};
+
+export enum DeleteOutputError {
+    Internal = 'INTERNAL',
+    TodoDoesNotExists = 'TODO_DOES_NOT_EXISTS'
+}
+
 export type Mutation = {
     __typename?: 'Mutation';
     /** Complete todo */
     complete: CompleteOutput;
     /** Create new todo */
     create: CreateOutput;
+    /** Delete todo */
+    delete: DeleteOutput;
 };
 
 export type MutationCompleteArgs = {
@@ -60,6 +76,10 @@ export type MutationCompleteArgs = {
 
 export type MutationCreateArgs = {
     input: CreateInput;
+};
+
+export type MutationDeleteArgs = {
+    input: DeleteInput;
 };
 
 export type Query = {
@@ -162,6 +182,9 @@ export type ResolversTypes = {
     CreateOutput: ResolverTypeWrapper<CreateOutput>;
     CreateOutputError: CreateOutputError;
     DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
+    DeleteInput: DeleteInput;
+    DeleteOutput: ResolverTypeWrapper<DeleteOutput>;
+    DeleteOutputError: DeleteOutputError;
     ID: ResolverTypeWrapper<Scalars['ID']>;
     Mutation: ResolverTypeWrapper<{}>;
     Query: ResolverTypeWrapper<{}>;
@@ -178,6 +201,8 @@ export type ResolversParentTypes = {
     CreateInput: CreateInput;
     CreateOutput: CreateOutput;
     DateTime: Scalars['DateTime'];
+    DeleteInput: DeleteInput;
+    DeleteOutput: DeleteOutput;
     ID: Scalars['ID'];
     Mutation: {};
     Query: {};
@@ -206,6 +231,14 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
     name: 'DateTime';
 }
 
+export type DeleteOutputResolvers<
+    ContextType = Context,
+    ParentType extends ResolversParentTypes['DeleteOutput'] = ResolversParentTypes['DeleteOutput']
+> = {
+    error: Resolver<Maybe<ResolversTypes['DeleteOutputError']>, ParentType, ContextType>;
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<
     ContextType = Context,
     ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
@@ -221,6 +254,12 @@ export type MutationResolvers<
         ParentType,
         ContextType,
         RequireFields<MutationCreateArgs, 'input'>
+    >;
+    delete: Resolver<
+        ResolversTypes['DeleteOutput'],
+        ParentType,
+        ContextType,
+        RequireFields<MutationDeleteArgs, 'input'>
     >;
 };
 
@@ -255,6 +294,7 @@ export type Resolvers<ContextType = Context> = {
     CompleteOutput: CompleteOutputResolvers<ContextType>;
     CreateOutput: CreateOutputResolvers<ContextType>;
     DateTime: GraphQLScalarType;
+    DeleteOutput: DeleteOutputResolvers<ContextType>;
     Mutation: MutationResolvers<ContextType>;
     Query: QueryResolvers<ContextType>;
     Timeline: TimelineResolvers<ContextType>;
