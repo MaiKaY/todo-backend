@@ -1,0 +1,59 @@
+{
+    "name": "@maikay/todo-backend",
+    "authors": [
+        {
+            "name": "Maik Schmidt",
+            "email": "maik.schmidt.hl@gmail.com"
+        }
+    ],
+    "scripts": {
+        "prepare": "npx husky install",
+        "api:codegen": "npx graphql-codegen && npm run lint:fix",
+        "api:start": "npx nodemon --require dotenv/config --verbose --ext \"ts,json,graphql\" --watch 'src/**/*' --exec 'ts-node' src/4.bin/local/api.ts",
+        "lint:fix": "npx prettier --write --ignore-unknown . && npx eslint --cache --fix .",
+        "test:unit": "npx jest test/unit --passWithNoTests"
+    },
+    "dependencies": {
+        "apollo-server": "3.6.7",
+        "apollo-server-core": "3.6.7",
+        "apollo-server-lambda": "3.6.7",
+        "aws-sdk": "2.1111.0",
+        "cors": "2.8.5",
+        "express": "4.17.3",
+        "graphql": "16.3.0",
+        "helmet": "5.0.2",
+        "lodash": "4.17.21",
+        "uuid": "8.3.2"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "16.2.3",
+        "@commitlint/config-conventional": "16.2.1",
+        "@graphql-codegen/add": "3.1.1",
+        "@graphql-codegen/cli": "2.6.2",
+        "@graphql-codegen/typescript": "2.4.8",
+        "@graphql-codegen/typescript-operations": "2.3.5",
+        "@graphql-codegen/typescript-resolvers": "2.6.1",
+        "@types/jest": "27.4.1",
+        "@types/lodash": "4.14.181",
+        "@types/morgan": "1.9.3",
+        "@types/uuid": "8.3.4",
+        "@typescript-eslint/eslint-plugin": "5.18.0",
+        "@typescript-eslint/parser": "5.18.0",
+        "aws-cdk": "2.20.0",
+        "aws-cdk-lib": "2.20.0",
+        "constructs": "10.0.109",
+        "dotenv": "16.0.0",
+        "eslint": "8.13.0",
+        "eslint-config-prettier": "8.5.0",
+        "eslint-plugin-import": "2.26.0",
+        "husky": "7.0.4",
+        "jest": "27.5.1",
+        "morgan": "1.10.0",
+        "nodemon": "2.0.15",
+        "prettier": "2.6.2",
+        "source-map-support": "0.5.21",
+        "ts-jest": "27.1.4",
+        "ts-node": "10.7.0",
+        "typescript": "4.6.3"
+    }
+}

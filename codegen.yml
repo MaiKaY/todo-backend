@@ -1,0 +1,12 @@
+generates:
+  ./src/3.infrastructure/api/graphql/types.ts:
+    schema: ./src/3.infrastructure/api/graphql/schema.graphql
+    plugins:
+      - add:
+          content: '/* eslint-disable */'
+      - typescript
+      - typescript-operations
+      - typescript-resolvers
+    config:
+      avoidOptionals: true
+      contextType: ./Context#Context
