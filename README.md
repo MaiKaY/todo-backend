@@ -10,8 +10,7 @@ I can't really remember how I wrote code several years ago and why I did things 
 
 ## Clean Architecture
 
-> [...] Nothing in an inner circle can know anything at all about something in an outer circle. In particular, the name of something declared in an outer circle must not be mentioned by the code in the an inner circle. [...]
-[read full article](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+> [...] Nothing in an inner circle can know anything at all about something in an outer circle. In particular, the name of something declared in an outer circle must not be mentioned by the code in the an inner circle. [...] > [read full article](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 
 ##### `0.shared`
 
@@ -51,13 +50,13 @@ From the fully automated [CI/CD pipeline](https://github.com/MaiKaY/todo-backend
 
 ## Linting
 
-No one likes conflicts in code styles. __No__. __One__. Therefore I use (hopefully) the right mixture of three different tools and ensure they are applied even before hitting the repository (at least if the git hooks are not deactivated ~~on purpose~~ accidentally).
+No one likes conflicts in code styles. **No**. **One**. Therefore I use (hopefully) the right mixture of three different tools and ensure they are applied even before hitting the repository (at least if the git hooks are not deactivated ~~on purpose~~ accidentally).
 
-- [editorconfig](https://github.com/MaiKaY/todo-backend/blob/main/.editorconfig)
-- [eslint](https://github.com/MaiKaY/todo-backend/blob/main/.eslintrc.js)
-- [prettier](https://github.com/MaiKaY/todo-backend/blob/main/.prettierrc.js)
+-   [editorconfig](https://github.com/MaiKaY/todo-backend/blob/main/.editorconfig)
+-   [eslint](https://github.com/MaiKaY/todo-backend/blob/main/.eslintrc.js)
+-   [prettier](https://github.com/MaiKaY/todo-backend/blob/main/.prettierrc.js)
 
-# What am I intersted in?
+# What am I interested in?
 
-- [ ] using CQRS (Command Query Responsibility Segregation)
-- [ ] tell me!
+-   [ ] using CQRS (Command Query Responsibility Segregation)
+-   [ ] tell me!
