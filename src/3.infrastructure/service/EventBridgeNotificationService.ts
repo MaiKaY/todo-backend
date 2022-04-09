@@ -9,31 +9,21 @@ export class EventBridgeNotificationService implements NotificationService {
     constructor(private readonly eventBusName: string) {}
 
     public async onTodoCreated(userId: UserId, todoId: string): Promise<void> {
-        await eventBridge
-            .putEvents({
-                Entries: [
-                    {
-                        EventBusName: this.eventBusName,
-                        Source: 'todo',
-                        DetailType: 'Created',
-                        Detail: JSON.stringify({
-                            userId,
-                            todoId
-                        })
-                    }
-                ]
-            })
-            .promise();
+        await this.publish('Created', userId, todoId);
     }
 
     public async onTodoCompleted(userId: UserId, todoId: string): Promise<void> {
+        await this.publish('Completed', userId, todoId);
+    }
+
+    private async publish(eventType: string, userId: UserId, todoId: string): Promise<void> {
         await eventBridge
             .putEvents({
                 Entries: [
                     {
                         EventBusName: this.eventBusName,
                         Source: 'todo',
-                        DetailType: 'Completed',
+                        DetailType: eventType,
                         Detail: JSON.stringify({
                             userId,
                             todoId
