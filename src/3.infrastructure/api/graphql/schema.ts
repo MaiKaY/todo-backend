@@ -40,6 +40,11 @@ export const typeDefs = gql`
         Delete todo
         """
         delete(input: DeleteInput!): DeleteOutput!
+
+        """
+        Uncomplete todo
+        """
+        uncomplete(input: UncompleteInput!): UncompleteOutput!
     }
 
     input CreateInput {
@@ -78,6 +83,20 @@ export const typeDefs = gql`
 
     enum DeleteOutputError {
         TODO_DOES_NOT_EXISTS
+        INTERNAL
+    }
+
+    input UncompleteInput {
+        todoId: ID!
+    }
+
+    type UncompleteOutput {
+        error: UncompleteOutputError
+    }
+
+    enum UncompleteOutputError {
+        TODO_DOES_NOT_EXISTS
+        TODO_NOT_COMPLETED
         INTERNAL
     }
 `;

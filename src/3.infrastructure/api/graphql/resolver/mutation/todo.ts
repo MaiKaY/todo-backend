@@ -1,6 +1,13 @@
 import { TodoAlreadyCompleted } from '../../../../../1.domain/exception/TodoAlreadyCompleted';
 import { TodoDoesNotExists } from '../../../../../1.domain/exception/TodoDoesNotExists';
-import { CompleteOutputError, CreateOutputError, DeleteOutputError, MutationResolvers } from '../../types';
+import { TodoNotCompleted } from '../../../../../1.domain/exception/TodoNotCompleted';
+import {
+    CompleteOutputError,
+    CreateOutputError,
+    DeleteOutputError,
+    MutationResolvers,
+    UncompleteOutputError
+} from '../../types';
 
 export const todoMutationResolvers: Partial<MutationResolvers> = {
     create: async (_, { input }, { application, user }) => {
@@ -47,6 +54,25 @@ export const todoMutationResolvers: Partial<MutationResolvers> = {
             console.log(e);
             return {
                 error: e instanceof TodoDoesNotExists ? DeleteOutputError.TodoDoesNotExists : DeleteOutputError.Internal
+            };
+        }
+    },
+    uncomplete: async (_, { input }, { application, user }) => {
+        try {
+            await application.uncomplete.invoke({
+                user,
+                todoId: input.todoId
+            });
+            return { error: null };
+        } catch (e) {
+            console.log(e);
+            return {
+                error:
+                    e instanceof TodoDoesNotExists
+                        ? UncompleteOutputError.TodoDoesNotExists
+                        : e instanceof TodoNotCompleted
+                        ? UncompleteOutputError.TodoNotCompleted
+                        : UncompleteOutputError.Internal
             };
         }
     }

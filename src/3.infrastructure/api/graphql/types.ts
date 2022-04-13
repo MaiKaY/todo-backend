@@ -68,6 +68,8 @@ export type Mutation = {
     create: CreateOutput;
     /** Delete todo */
     delete: DeleteOutput;
+    /** Uncomplete todo */
+    uncomplete: UncompleteOutput;
 };
 
 export type MutationCompleteArgs = {
@@ -80,6 +82,10 @@ export type MutationCreateArgs = {
 
 export type MutationDeleteArgs = {
     input: DeleteInput;
+};
+
+export type MutationUncompleteArgs = {
+    input: UncompleteInput;
 };
 
 export type Query = {
@@ -101,6 +107,21 @@ export type Todo = {
     isCompleted: Scalars['Boolean'];
     timeline: Timeline;
 };
+
+export type UncompleteInput = {
+    todoId: Scalars['ID'];
+};
+
+export type UncompleteOutput = {
+    __typename?: 'UncompleteOutput';
+    error: Maybe<UncompleteOutputError>;
+};
+
+export enum UncompleteOutputError {
+    Internal = 'INTERNAL',
+    TodoDoesNotExists = 'TODO_DOES_NOT_EXISTS',
+    TodoNotCompleted = 'TODO_NOT_COMPLETED'
+}
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -191,6 +212,9 @@ export type ResolversTypes = {
     String: ResolverTypeWrapper<Scalars['String']>;
     Timeline: ResolverTypeWrapper<Timeline>;
     Todo: ResolverTypeWrapper<Todo>;
+    UncompleteInput: UncompleteInput;
+    UncompleteOutput: ResolverTypeWrapper<UncompleteOutput>;
+    UncompleteOutputError: UncompleteOutputError;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -209,6 +233,8 @@ export type ResolversParentTypes = {
     String: Scalars['String'];
     Timeline: Timeline;
     Todo: Todo;
+    UncompleteInput: UncompleteInput;
+    UncompleteOutput: UncompleteOutput;
 };
 
 export type CompleteOutputResolvers<
@@ -261,6 +287,12 @@ export type MutationResolvers<
         ContextType,
         RequireFields<MutationDeleteArgs, 'input'>
     >;
+    uncomplete: Resolver<
+        ResolversTypes['UncompleteOutput'],
+        ParentType,
+        ContextType,
+        RequireFields<MutationUncompleteArgs, 'input'>
+    >;
 };
 
 export type QueryResolvers<
@@ -290,6 +322,14 @@ export type TodoResolvers<
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UncompleteOutputResolvers<
+    ContextType = Context,
+    ParentType extends ResolversParentTypes['UncompleteOutput'] = ResolversParentTypes['UncompleteOutput']
+> = {
+    error: Resolver<Maybe<ResolversTypes['UncompleteOutputError']>, ParentType, ContextType>;
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = Context> = {
     CompleteOutput: CompleteOutputResolvers<ContextType>;
     CreateOutput: CreateOutputResolvers<ContextType>;
@@ -299,4 +339,5 @@ export type Resolvers<ContextType = Context> = {
     Query: QueryResolvers<ContextType>;
     Timeline: TimelineResolvers<ContextType>;
     Todo: TodoResolvers<ContextType>;
+    UncompleteOutput: UncompleteOutputResolvers<ContextType>;
 };
