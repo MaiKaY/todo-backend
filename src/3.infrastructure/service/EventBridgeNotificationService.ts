@@ -20,6 +20,10 @@ export class EventBridgeNotificationService implements NotificationService {
         await this.publish('Deleted', userId, todoId);
     }
 
+    public async onTodoUncompleted(userId: UserId, todoId: string): Promise<void> {
+        await this.publish('Uncompleted', userId, todoId);
+    }
+
     private async publish(eventType: string, userId: UserId, todoId: string): Promise<void> {
         await eventBridge
             .putEvents({
