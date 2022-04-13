@@ -3,10 +3,12 @@ import { v4 as uuid } from 'uuid';
 import { Completed } from './event/Completed';
 import { Created } from './event/Created';
 import { Deleted } from './event/Deleted';
+import { Uncompleted } from './event/Uncompleted';
 import { TodoAlreadyCompleted } from './exception/TodoAlreadyCompleted';
 import { TodoDoesNotExists } from './exception/TodoDoesNotExists';
+import { TodoNotCompleted } from './exception/TodoNotCompleted';
 
-export type DomainEvent = Completed | Created | Deleted;
+export type DomainEvent = Completed | Created | Deleted | Uncompleted;
 
 export type Timeline = {
     createdAt: Date;
@@ -69,6 +71,24 @@ export class TodoList {
         return this.causes(event);
     }
 
+    public uncomplete(todoId: string): TodoList {
+        const todo = this.todos.find((item) => item.id === todoId);
+        if (!todo) {
+            throw new TodoDoesNotExists();
+        }
+        if (!todo.isCompleted) {
+            throw new TodoNotCompleted();
+        }
+        const event: Uncompleted = {
+            type: 'Uncompleted',
+            eventDate: new Date(),
+            payload: {
+                todoId
+            }
+        };
+        return this.causes(event);
+    }
+
     public delete(todoId: string): TodoList {
         const todo = this.todos.find((item) => item.id === todoId);
         if (!todo) {
@@ -121,6 +141,24 @@ export class TodoList {
                                     : {
                                           ...todo.timeline,
                                           completedAt: event.eventDate
+                                      }
+                        }))
+                    }
+                });
+            }
+            case 'Uncompleted': {
+                return this.copyWith({
+                    attributes: {
+                        ...this.attributes,
+                        todos: this.todos.map((todo) => ({
+                            ...todo,
+                            isCompleted: todo.id !== event.payload.todoId ? todo.isCompleted : false,
+                            timeline:
+                                todo.id !== event.payload.todoId
+                                    ? todo.timeline
+                                    : {
+                                          ...todo.timeline,
+                                          completedAt: undefined
                                       }
                         }))
                     }
