@@ -49,7 +49,7 @@ export class DynamoDbTodoRepository extends AbstractDynamoDb implements TodoRepo
                 eventType: change.type,
                 eventDate: change.eventDate.toISOString(),
                 payload: JSON.stringify(change.payload || {}),
-                ttl: Math.floor(Date.now() / 1000) + 60 * 60 * 5 // 5 mins
+                ttl: Math.floor(Date.now() / 1000) + 60 * 5 // 5 minutes
             })
         );
 
