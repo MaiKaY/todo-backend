@@ -11,6 +11,7 @@ interface PersistedEvent {
     eventType: 'Completed' | 'Created' | 'Deleted';
     eventDate: string;
     payload: string;
+    ttl: number;
 }
 
 export class DynamoDbTodoRepository extends AbstractDynamoDb implements TodoRepository {
@@ -47,7 +48,8 @@ export class DynamoDbTodoRepository extends AbstractDynamoDb implements TodoRepo
                 userId,
                 eventType: change.type,
                 eventDate: change.eventDate.toISOString(),
-                payload: JSON.stringify(change.payload || {})
+                payload: JSON.stringify(change.payload || {}),
+                ttl: Math.floor(Date.now() / 1000) + 60 * 60 * 5 // 5 mins
             })
         );
 

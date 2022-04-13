@@ -72,7 +72,8 @@ export class InfrastructureStack extends Stack {
                 name: 'eventDate',
                 type: dynamodb.AttributeType.STRING
             },
-            billingMode: dynamodb.BillingMode.PAY_PER_REQUEST
+            billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+            timeToLiveAttribute: 'ttl'
         });
 
         const api = new apigateway.RestApi(this, 'API', {
