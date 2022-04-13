@@ -1,4 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+#npm run test:unit && npx tsc --noEmit && npx depcruise --config .dependency-cruiser.js src
 npm run test:unit && npx tsc --noEmit
