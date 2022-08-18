@@ -17,7 +17,7 @@
     },
     "dependencies": {
         "apollo-server": "3.6.7",
-        "apollo-server-core": "3.6.7",
+        "apollo-server-core": "3.10.1",
         "apollo-server-lambda": "3.6.7",
         "aws-sdk": "2.1111.0",
         "cors": "2.8.5",
